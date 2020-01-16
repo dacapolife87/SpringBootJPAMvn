@@ -7,7 +7,7 @@ import org.hjjang.springjpa.domain.OrderStatus;
 @Getter @Setter
 public class OrderSearch {
 
-    private String membername;
+    private String memberName;
     private OrderStatus orderStatus;
 
 }

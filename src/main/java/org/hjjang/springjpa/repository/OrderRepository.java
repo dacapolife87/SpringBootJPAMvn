@@ -26,8 +26,8 @@ public class OrderRepository {
         return em.find(Order.class, id);
     }
 
-    public List<Order> findAll(OrderSearch orderSearch){
-        String jpql = "select o from Order o join o.member m";
+    public List<Order> findAllByString(OrderSearch orderSearch){
+        String jpql = "select o From Order o join o.member m";
         boolean isFirstCondition = true;
 
         if(orderSearch.getOrderStatus() != null){
@@ -37,17 +37,17 @@ public class OrderRepository {
             }else{
                 jpql += " and";
             }
-            jpql += "o.status = :status";
+            jpql += " o.status = :status";
         }
 
-        if(StringUtils.hasText(orderSearch.getMembername())){
+        if(StringUtils.hasText(orderSearch.getMemberName())){
             if(isFirstCondition){
                 jpql += " where";
                 isFirstCondition = false;
             }else{
                 jpql += " and";
             }
-            jpql += "o.name = :name";
+            jpql += " m.name like :name";
         }
 
         TypedQuery<Order> query = em.createQuery(jpql, Order.class).setMaxResults(1000);
@@ -56,8 +56,8 @@ public class OrderRepository {
             query = query.setParameter("status", orderSearch.getOrderStatus());
         }
 
-        if(StringUtils.hasText(orderSearch.getMembername())){
-            query = query.setParameter("name", orderSearch.getMembername());
+        if(StringUtils.hasText(orderSearch.getMemberName())){
+            query = query.setParameter("name", orderSearch.getMemberName());
         }
 
         return query.getResultList();
@@ -80,8 +80,8 @@ public class OrderRepository {
             criteria.add(status);
         }
 
-        if(StringUtils.hasText(orderSearch.getMembername())){
-            Predicate status = cb.equal(o.get("member"), "%" + orderSearch.getMembername()+ "%");
+        if(StringUtils.hasText(orderSearch.getMemberName())){
+            Predicate status = cb.equal(o.get("member"), "%" + orderSearch.getMemberName()+ "%");
             criteria.add(status);
         }
 
