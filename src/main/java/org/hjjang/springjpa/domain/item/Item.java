@@ -2,12 +2,14 @@ package org.hjjang.springjpa.domain.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import org.hjjang.springjpa.domain.Category;
 import org.hjjang.springjpa.exception.NotEnoughtStockException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

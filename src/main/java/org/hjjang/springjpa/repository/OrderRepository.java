@@ -97,6 +97,15 @@ public class OrderRepository {
                         " join fetch o.delivery d", Order.class
         ).getResultList();
     }
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+                      "select o from Order o" +
+                        " join fetch o.member m"+
+                        " join fetch o.delivery d", Order.class
+        ).setFirstResult(offset)
+        .setMaxResults(limit)
+        .getResultList();
+    }
 
     public List<OrderSimpleQueryDto> findOrderDtos() {
         return em.createQuery("select new org.hjjang.springjpa.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status,d.address) " +
@@ -115,4 +124,6 @@ public class OrderRepository {
                         " join fetch oi.item i",Order.class
         ).getResultList();
     }
+
+
 }
